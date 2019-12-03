@@ -6,8 +6,8 @@
 #include <iomanip>
 using namespace std;
 int main() {
-	int choice1, choice2, cont = 1, increment;
-	float P, T;
+	int choice1, choice2, cont = 1;
+	float P, T, increment;
 	while (cont) {
 		cout << "[1] R12" << endl;
 		cout << "[2] R22" << endl;
@@ -159,21 +159,25 @@ int main() {
 				// slightly different routine here -- table style
 				cout << "Enter pressure increment value: ";
 				cin >> increment;
+				while (increment < 0.1) {
+					cout << "Value must be greater than or equal to 0.1: ";
+					cin >> increment;
+				}
 				cout << "" << endl;
 				cout << "Temperature	Pressure" << endl;
 				cout << "(DEG F)		(PSIG)" << endl;
 				for (P = 0; P <= 500; P+=increment) {
 					// for values of P more than 250
 					if (P > 250) {
-						cout << std::fixed << setw(7) << setprecision(3) << 1.15879997e-011 * pow(P, 5) - 2.12589999e-008 * pow(P, 4) + 0.000015737 * pow(P, 3) - 0.0060878 * pow(P, 2) + 1.4884 * P - 19.949 << setw(12) << setprecision(0) << P << endl;
+						cout << std::fixed << setw(7) << setprecision(3) << 1.15879997e-011 * pow(P, 5) - 2.12589999e-008 * pow(P, 4) + 0.000015737 * pow(P, 3) - 0.0060878 * pow(P, 2) + 1.4884 * P - 19.949 << setw(14) << setprecision(1) << P << endl;
 					}
 					// for values of P from 40 to 250
 					if (P >= 40 && P <= 250) {
-						cout << std::fixed << setw(7) << setprecision(3) << 1.60410000e-010 * pow(P, 5) - 1.41409998e-7 * pow(P, 4) + 0.000051367 * pow(P, 3) - 0.010342 * pow(P, 2) + 1.5544 * P - 3.1862 << setw(12) << setprecision(0) << P << endl;
+						cout << std::fixed << setw(7) << setprecision(3) << 1.60410000e-010 * pow(P, 5) - 1.41409998e-7 * pow(P, 4) + 0.000051367 * pow(P, 3) - 0.010342 * pow(P, 2) + 1.5544 * P - 3.1862 << setw(14) << setprecision(1) << P << endl;
 					}
 					// for values of P less than 40
 					if (P < 40) {
-						cout << std::fixed << setw(7) << setprecision(3) << 7.93840016e-008 * pow(P, 5) - 0.000017258 * pow(P, 4) + 0.0013896 * pow(P, 3) - 0.063623 * pow(P, 2) + 2.7321 * P - 15.136 << setw(12) << setprecision(0) << P << endl;
+						cout << std::fixed << setw(7) << setprecision(3) << 7.93840016e-008 * pow(P, 5) - 0.000017258 * pow(P, 4) + 0.0013896 * pow(P, 3) - 0.063623 * pow(P, 2) + 2.7321 * P - 15.136 << setw(14) << setprecision(1) << P << endl;
 					}
 				}
 			}
@@ -181,21 +185,25 @@ int main() {
 				// slightly different routine here -- table style
 				cout << "Enter temperature increment value: ";
 				cin >> increment;
+				while (increment < 0.1) {
+					cout << "Value must be greater than or equal to 0.1: ";
+					cin >> increment;
+				}
 				cout << "" << endl;
 				cout << "Pressure	Temperature" << endl;
 				cout << "(PSIG)		(DEG F)" << endl;
 				for (T = 0; T <= 250; T += increment) {
 					// for values of T more than 145
 					if (T > 145) {
-						cout << std::fixed << setw(7) << setprecision(3) << -8.50969997e-008 * pow(T, 5) + 0.000072702 * pow(T, 4) - 0.02474 * pow(T, 3) + 4.209 * pow(T, 2) - 355.25 * T + 12004.0 << setw(12) << setprecision(0) << T << endl;
+						cout << std::fixed << setw(7) << setprecision(3) << -8.50969997e-008 * pow(T, 5) + 0.000072702 * pow(T, 4) - 0.02474 * pow(T, 3) + 4.209 * pow(T, 2) - 355.25 * T + 12004.0 << setw(14) << setprecision(1) << T << endl;
 					}
 					// for values of P from 45 to 145
 					if (T >= 45 && T <= 145) {
-						cout << std::fixed << setw(7) << setprecision(3) << -1.96010000e-010 * pow(T, 5) + 9.70830030e-008 * pow(T, 4) + 8.56509996e-006 * pow(T, 3) + 0.0057092 * pow(T, 2) + 0.43874 * T + 7.2097 << setw(12) << setprecision(0) << T << endl;
+						cout << std::fixed << setw(7) << setprecision(3) << -1.96010000e-010 * pow(T, 5) + 9.70830030e-008 * pow(T, 4) + 8.56509996e-006 * pow(T, 3) + 0.0057092 * pow(T, 2) + 0.43874 * T + 7.2097 << setw(14) << setprecision(1) << T << endl;
 					}
 					// for values of T less than 45
 					if (T < 45) {
-						cout << std::fixed << setw(7) << setprecision(3) << 1.93309990e-009 * pow(T, 5) - 1.33559993e-007 * pow(T, 4) + 0.000025698 * pow(T, 3) + 0.0046314 * pow(T, 2) + 0.48411 * T + 6.36 << setw(12) << setprecision(0) << T << endl;
+						cout << std::fixed << setw(7) << setprecision(3) << 1.93309990e-009 * pow(T, 5) - 1.33559993e-007 * pow(T, 4) + 0.000025698 * pow(T, 3) + 0.0046314 * pow(T, 2) + 0.48411 * T + 6.36 << setw(14) << setprecision(1) << T << endl;
 					}
 				}
 			}
