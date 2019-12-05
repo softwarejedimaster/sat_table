@@ -8,6 +8,8 @@ using namespace std;
 int main() {
 	int choice1, choice2, cont = 1;
 	float P, T, increment;
+    cout << "Refrigerant Saturation Calculator v1.0" << endl;
+    cout << "Written by Tony Scarcia (2019)" << endl << endl;
 	while (cont) {
 		cout << "[1] R12" << endl;
 		cout << "[2] R22" << endl;
@@ -17,7 +19,7 @@ int main() {
 		cout << "[6] R513a" << endl;
 		cout << "[7] R1233zd" << endl;
 		cout << "[8] R123" << endl;
-		cout << endl << "Choose a Refrigerant [1-7] ";
+		cout << endl << "Choose a Refrigerant [1-8] ";
 		cin >> choice1;
 		switch (choice1) {
 		case 1: cout << "Refrigerant R12" << endl;
@@ -329,19 +331,25 @@ int main() {
 				}
 			}
 			if (choice2 == 2) {
-				cout << "Enter Saturation Temperature [degF]: ";
-				cin >> T;
-				//solve for pressures
-				if (T < -50 || T > 250) {
-					cout << "Invalid entry" << endl; break;
+				// slightly different routine here -- table style
+				cout << "Enter temperature increment value: ";
+				cin >> increment;
+				while (increment < 0.1) {
+					cout << "Value must be greater than or equal to 0.1: ";
+					cin >> increment;
 				}
-				// for values of T more than 0
-				if (T > 0) {
-					cout << "The Saturation Pressure is: " << 3.00E-05 * pow(T, 3) + 0.003 * pow(T, 2) + 0.6286 * T + 8.2412 << " psig" << endl;
-				}
-				// for values of T less than 0
-				if (T <= 0) {
-					cout << "The Saturation Pressure is: " << 2.00E-05 * pow(T, 3) + 0.0047 * pow(T, 2) + 0.5391 * T + 9.1874 << " psig" << endl;
+				cout << endl;
+				cout << "Pressure	Temperature" << endl;
+				cout << "(PSIG)		(DEG F)" << endl;
+				for (T = -50; T <= 250; T += increment) {
+					// for values of T more than 0
+					if (T > 0) {
+						cout << std::fixed << setw(7) << setprecision(3) << 3.00E-05 * pow(T, 3) + 0.003 * pow(T, 2) + 0.6286 * T + 8.2412 << setw(14) << setprecision(1) << T << endl;
+					}
+					// for values of T less than 0
+					if (T <= 0) {
+						cout << std::fixed << setw(7) << setprecision(3) << 2.00E-05 * pow(T, 3) + 0.0047 * pow(T, 2) + 0.5391 * T + 9.1874 << setw(14) << setprecision(1) << T << endl;
+					}	
 				}
 			}
 			break;
@@ -351,106 +359,128 @@ int main() {
 			cout << endl << "Choose Temperature or Pressure [1-2]" << endl;
 			cin >> choice2;
 			if (choice2 == 1) {
-				cout << "Enter Saturation Pressure [PSIG]: ";
-				cin >> P;
-				// solve for temperatures
-				if (P < 0 || P > 500) {
-					cout << "Invalid entry" << endl; break;
+				// slightly different routine here -- table style
+				cout << "Enter pressure increment value: ";
+				cin >> increment;
+				while (increment < 0.1) {
+					cout << "Value must be greater than or equal to 0.1: ";
+					cin >> increment;
 				}
-				// for values of P more than 0.27
-				if (P > 0.27) {
-					cout << "The Saturation Temperature is: " << P << " degF" << endl;
-				}
-				// for values of P from 0.27 to 1.10
-				if (P >= 0.27 && P < 1.10) {
-					cout << "The Saturation Temperature is: " << P << " degF" << endl;
-				}
-				// for values of P from 1.10 to 9.32
-				if (P >= 1.10 && P < 9.32) {
-					cout << "The Saturation Temperature is: " << P << " degF" << endl;
-				}
-				// for values of P from 9.32 to 20.08
-				if (P >= 9.32 && P < 20.08) {
-					cout << "The Saturation Temperature is: " << P << " degF" << endl;
-				}
-				// for values of P from 20.08 to 38.70
-				if (P >= 20.08 && P < 38.70) {
-					cout << "The Saturation Temperature is: " << P << " degF" << endl;
-				}
-				// for values of P from 38.70 to 79.81
-				if (P >= 38.70 && P < 79.81) {
-					cout << "The Saturation Temperature is: " << P << " degF" << endl;
-				}
-				// for values of P more than 79.81
-				if (P >= 79.81) {
-					cout << "The Saturation Temperature is: " << P << " degF" << endl;
-				}
-			}
+				cout << endl;
+				cout << "Temperature	Pressure" << endl;
+				cout << "(DEG F)		(PSIG)" << endl;
+				for (P = 0; P <= 150; P+=increment) {
+                    // for values of P less than 0.27
+                    if (P < 0.27) {
+                        cout << std::fixed << setw(9) << setprecision(3) << 599.74 * pow(P, 2) + 399.72 * P - 120.22 << setw(12) << setprecision(1) << P << endl;
+                    }
+                    // for values of P from 0.27 to 1.10
+                    if (P >= 0.27 && P < 1.10) {
+                        cout << std::fixed << setw(9) << setprecision(3) << -36.938 * pow(P, 2) + 108.74 * P - 80.303 << setw(12) << setprecision(1) << P << endl;
+                    }
+                    // for values of P from 1.10 to 9.32
+                    if (P >= 1.10 && P < 9.32) {
+                        cout << std::fixed << setw(9) << setprecision(3) << 0.0047 * pow(P, 5) - 0.1481 * pow(P, 4) + 1.8756 * pow(P, 3) - 12.523 * pow(P, 2) + 54.573 * P - 51.478 << setw(12) << setprecision(1) << P << endl;
+                    }
+                    // for values of P from 9.32 to 20.08
+                    if (P >= 9.32 && P < 20.08) {
+                        cout << std::fixed << setw(9) << setprecision(3) << -0.1276 * pow(P, 2) + 8.3516 * P + 33.535 << setw(12) << setprecision(1) << P << endl;
+                    }
+                    // for values of P from 20.08 to 38.70
+                    if (P >= 20.08 && P < 38.70) {
+                        cout << std::fixed << setw(9) << setprecision(3) << -0.0341 * pow(P, 2) + 4.6642*P + 70.472 << setw(12) << setprecision(1) << P << endl;
+                    }
+                    // for values of P from 38.70 to 79.81
+                    if (P >= 38.70 && P < 79.81) {
+                        cout << std::fixed << setw(9) << setprecision(3) << -0.0099 * pow(P, 2) + 2.7387*P + 109.43 << setw(12) << setprecision(1) << P << endl;
+                    }
+                    // for values of P more than 79.81
+                    if (P >= 79.81) {
+                        cout << std::fixed << setw(9) << setprecision(3) << -0.0031 * pow(P, 2) + 1.6600*P + 152.72 << setw(12) << setprecision(1) << P << endl;
+                    }
+                }
+            }    
 			if (choice2 == 2) {
-				cout << "Enter Saturation Temperature [degF]: ";
-				cin >> T;
-				//solve for pressures
-				if (T < -100 || T > 100) {
-					cout << "Invalid entry" << endl; break;
+				// slightly different routine here -- table style
+				cout << "Enter temperature increment value: ";
+				cin >> increment;
+				while (increment < 0.1) {
+					cout << "Value must be greater than or equal to 0.1: ";
+					cin >> increment;
 				}
-				// for values of T more than 0
-				if (T > 0) {
-					cout << "The Saturation Pressure is: " << T << " psig" << endl;
-				}
-				// for values of T from -55 to 0
-				if (T > 0) {
-					cout << "The Saturation Pressure is: " << T << " psig" << endl;
-				}
-				// for values of T less than -55
-				if (T < -55) {
-					cout << "The Saturation Pressure is: " << T << " psig" << endl;
+				cout << endl;
+				cout << "Pressure	Temperature" << endl;
+				cout << "(PSIG)		(DEG F)" << endl;
+				for (T = -100; T <= 100; T += increment) {
+                    // for values of T more than 0
+                    if (T > 0) {
+                        cout << std::fixed << setw(7) << setprecision(3) << 4.015e-15 * pow(T, 6) - 5.236e-12 * pow(T, 5) + 5.6190e-09 * pow(T, 4) + 1.406E-06 * pow(T, 3) + 3.160E-04 * pow(T, 2) + 2.996E-2 * T + 1.2418 << setw(14) << setprecision(1) << T << endl;
+                    }
+                    // for values of T from -55 to 0
+                    if (T > -55 && T <= 0) {
+                        cout << std::fixed << setw(7) << setprecision(3) << 1.2937 * pow(2.71828183, (0.0277*T)) << setw(14) << setprecision(1) << T << endl;
+                    }
+                    // for values of T less than -55
+                    if (T < -55) {
+                        cout << std::fixed << setw(7) << setprecision(3) << 1.8564 * pow(2.71828183, (0.0343*T)) << setw(14) << setprecision(1) << T << endl;
+                    }    
 				}
 			}
 			break;
 		case 8: cout << "Refrigerant R123" << endl;
 			cout << "[1] Solve for Temperature" << endl;
 			cout << "[2] Solve for Pressure" << endl;
-			cout << endl << "Choose Temperature or Pressure [1-2]" << endl;
+			cout << endl << "Choose Temperature or Pressure [1-2] ";
 			cin >> choice2;
 			if (choice2 == 1) {
-				cout << "Enter Saturation Pressure [PSIG]: ";
-				cin >> P;
-				// solve for temperatures
-				if (P < -50 || P > 250) {
-					cout << "Invalid entry" << endl; break;
+                // slightly different routine here -- table style
+				cout << "Enter pressure increment value: ";
+				cin >> increment;
+				while (increment < 0.1) {
+					cout << "Value must be greater than or equal to 0.1: ";
+					cin >> increment;
 				}
-				// for values of P more than 100
-				if (P > 100) {
-					cout << "The Saturation Temperature is: " << -0.0008 * pow(P, 2) + 0.7928 * P + 142.6 << " degF" << endl;
-				}
-				// for values of P from 0 to 100
-				if (P >= 0 && P <= 100) {
-					cout << "The Saturation Temperature is: " << 0.0001 * pow(P, 3) - 0.0234 * pow(P, 2) + 2.6315 * P + 84.412 << " degF" << endl;
-				}
-				// for values of P less than 0
-				if (P < 0) {
-					cout << "The Saturation Temperature is: " << -0.0091 * pow(P, 4) - 0.2001 * pow(P, 3) - 1.6318 * pow(P, 2) - 0.6415 * P + 79.91 << " degF" << endl;
-
+				cout << endl;
+				cout << "Temperature	Pressure" << endl;
+				cout << "(DEG F)		(PSIG)" << endl;
+				for (P = -50; P <= 250; P+=increment) {
+					// for values of P more than 100
+					if (P > 100) {
+						cout << std::fixed << setw(7) << setprecision(3) << -0.0008 * pow(P, 2) + 0.7928 * P + 142.6 << setw(14) << setprecision(1) << P << endl;
+					}
+					// for values of P from 0 to 100
+					if (P >= 0 && P <= 100) {
+						cout << std::fixed << setw(7) << setprecision(3) << 0.0001 * pow(P, 3) - 0.0234 * pow(P, 2) + 2.6315 * P + 84.412 << setw(14) << setprecision(1) << P << endl;
+					}
+					// for values of P less than 0
+					if (P < 0) {
+						cout << std::fixed << setw(7) << setprecision(3) << -0.0091 * pow(P, 4) - 0.2001 * pow(P, 3) - 1.6318 * pow(P, 2) - 0.6415 * P + 79.91 << setw(14) << setprecision(1) << P << endl;
+					}
 				}
 			}
 			if (choice2 == 2) {
-				cout << "Enter Saturation Temperature [degF]: ";
-				cin >> T;
-				//solve for pressures
-				if (T < -50 || T > 250) {
-					cout << "Invalid entry" << endl; break;
+				// slightly different routine here -- table style
+				cout << "Enter temperature increment value: ";
+				cin >> increment;
+				while (increment < 0.1) {
+					cout << "Value must be greater than or equal to 0.1: ";
+					cin >> increment;
 				}
-				// for values of T more than 150
-				if (T > 150) {
-					cout << "The Saturation Pressure is: " << 0.0083 * pow(T, 2) - 2.0879 * T + 166.04 << " psig" << endl;
-				}
-				// for values of T from 0 to 150
-				if (T >= 0 && T <= 150) {
-					cout << "The Saturation Pressure is: " << 1.00E-08 * pow(T, 4) + 5.00E-06 * pow(T, 3) + 0.0007 * pow(T, 2) + 0.059 * T - 12.710 << " psig" << endl;
-				}
-				// for values of T less than 0
-				if (T < 0) {
-					cout << "The Saturation Pressure is: " << 7.00e-09 * pow(T, 4) + 3.00e-06 * pow(T, 3) + 0.0006 * pow(T, 2) + 0.0568 * T - 12.713 << " psig" << endl;
+				cout << endl;
+				cout << "Pressure	Temperature" << endl;
+				cout << "(PSIG)		(DEG F)" << endl;
+				for (T = -50; T <= 250; T += increment) {
+					// for values of T more than 150
+					if (T > 150) {
+						cout << std::fixed << setw(7) << setprecision(3) << .0083 * pow(T, 2) - 2.0879 * T + 166.04 << setw(14) << setprecision(1) << T << endl;
+					}
+					// for values of T from 0 to 150
+					if (T >= 0 && T <= 150) {
+						cout << std::fixed << setw(7) << setprecision(3) << 1.00E-08 * pow(T, 4) + 5.00E-06 * pow(T, 3) + 0.0007 * pow(T, 2) + 0.059 * T - 12.710 << setw(14) << setprecision(1) << T << endl;					}
+					// for values of T less than 0
+					if (T < 0) {
+						cout << std::fixed << setw(7) << setprecision(3) << 7.00e-09 * pow(T, 4) + 3.00e-06 * pow(T, 3) + 0.0006 * pow(T, 2) + 0.0568 * T - 12.713 << setw(14) << setprecision(1) << T << endl;
+					}
 				}
 			}
 			break;
